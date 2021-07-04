@@ -1,0 +1,24 @@
+{
+	"name": "samp-command-handler",
+	"type": "static lib",
+	"includeFolders": {
+		"public": "include"
+	},
+	"pch": {
+		"header": "include/SAMPCommandHandler/SAMPCommandHandlerPCH.hpp",
+		"source": "src/SAMPCommandHandlerPCH.cpp",
+		"definition": "SAMPCOMMANDHANDLER_PCH"
+	},
+	"defines": {
+		"interface": "SAMPCOMMANDHANDLER_PCH=<SAMPCommandHandler/SAMPCommandHandlerPCH.hpp>"
+	},
+	"files": [
+		"include/SAMPCommandHandler/**.hpp",
+		"include/SAMPCommandHandler/**.inl",
+		"src/**.cpp"
+	],
+	"dependencies": {
+		"public": [ "samp-cpp" ]
+	},
+	"version": "0.0.1"
+}
