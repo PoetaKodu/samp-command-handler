@@ -18,7 +18,7 @@
 		"src/**.cpp"
 	],
 	"dependencies": {
-		"public": [ "samp-cpp" ]
+		"public": [ "samp-cpp", "string-algo" ]
 	},
 	"version": "0.0.1"
 }

@@ -11,11 +11,19 @@ namespace samp_cmd
 template <typename TPlayer>
 bool CommandHandler<TPlayer>::handleCommandText(int32_t playerIdx_, std::string_view command_)
 {
-	auto it = commands.find(command_);
+	std::string_view invocation;
+
+	auto spacePos = command_.find_first_of(" \t\r\n");
+	if (spacePos != std::string::npos)
+		invocation = command_.substr(1, spacePos - 1);
+	else
+		invocation = command_.substr(1);
+
+	auto it = commands.find(invocation);
 
 	if (it != commands.end())
 	{
-		it->second->invoke( Player{playerIdx_} );
+		it->second->invoke( Player{playerIdx_}, CommandArgs(command_) );
 		return true;
 	}
 	return false;
