@@ -3,6 +3,7 @@
 #include <SAMPCpp/Everything.hpp>
 
 #include <StringAlgo/General.hpp>
+#include <StringAlgo/Convert.hpp>
 
 #include <map>
 #include <vector>
