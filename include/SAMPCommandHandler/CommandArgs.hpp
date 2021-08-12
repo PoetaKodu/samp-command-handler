@@ -9,6 +9,38 @@ namespace samp_cmd
 
 constexpr size_t MaxCommandArgs = 256;
 
+template <typename T>
+struct Opt
+{
+	using Type = T;
+
+	Opt(T& ref_)
+		: ref(ref_)
+	{
+	}
+
+	Opt(T& ref_, T alternative_)
+		: ref(ref_), alternative(alternative_)
+	{
+	}
+
+	T& ref;
+	std::optional<T> alternative = std::nullopt;
+};
+
+namespace detail
+{
+
+template <typename T, typename = void>
+struct IsOptArgT : std::false_type {};
+template<class T>
+struct IsOptArgT< Opt<T> > : std::true_type {};
+
+template<typename T>
+constexpr bool IsOptArg = IsOptArgT< T >::value;
+
+}
+
 /// <summary>
 /// 	A class used to efficiently parse and access command arguments.
 /// </summary>
@@ -175,6 +207,48 @@ struct CommandArgs
 	/// <returns>The entire arguments buffer as a std::string</returns>
 	explicit operator std::string() 		const { return std::string(params); }
 
+	template <typename... TArgs>
+	bool operator()(TArgs&&... args_)
+	{
+		constexpr size_t NumArgs = sizeof...(args_);
+		constexpr size_t NumReqArgs = (static_cast<int>(!detail::IsOptArg<TArgs>) + ...);
+
+		size_t parsed = this->tryParse(NumArgs);
+		if (parsed < NumReqArgs)
+			return false;
+		
+		size_t argNum = this->numParsed() - parsed;
+		auto handleArg = [&](auto & arg) -> bool {
+			using ArgType = std::remove_reference_t< decltype(arg) >;
+			if constexpr (!detail::IsOptArg<ArgType>)
+			{
+				auto val = this->get<ArgType>(argNum);
+				if (!val.has_value())
+					return false;
+				
+				arg = val.value();
+				++argNum;
+				return true;
+			}
+			else
+			{
+				auto val = this->get< typename ArgType::Type >(argNum);
+				if (!val.has_value())
+				{
+					if (arg.alternative.has_value())
+						arg.ref = arg.alternative.value();
+				}
+				else {
+					arg.ref = val.value();
+				}
+
+				++argNum;
+				return true;
+			}
+		};
+
+		return ((handleArg(args_)) && ...);
+	}
 
 	// Public variables:
 
