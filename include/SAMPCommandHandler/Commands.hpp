@@ -51,7 +51,10 @@ public:
 	{
 	}
 
-	virtual void invoke(TPlayer player_, CommandArgs args_) { func(player_, args_); }
+	virtual void invoke(TPlayer player_, CommandArgs args_) {
+		args_.tryParse(1);
+		func(player_, args_);
+	}
 
 	Func func;
 };
