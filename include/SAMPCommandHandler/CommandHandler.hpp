@@ -35,6 +35,12 @@ public:
 	}
 
 	////////////////////////////////////
+	void add(std::vector<std::string_view> const& aliases_, typename FunctionCommandNoArgs<Player>::Func cmdFunc_)
+	{
+		return this->add<FunctionCommandNoArgs>( aliases_, std::move(cmdFunc_) );
+	}
+
+	////////////////////////////////////
 	void add(std::vector<std::string_view> const& aliases_, typename FunctionCommand<Player>::Func cmdFunc_)
 	{
 		return this->add<FunctionCommand>( aliases_, std::move(cmdFunc_) );
