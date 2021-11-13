@@ -1,6 +1,7 @@
 {
 	"name": "samp-command-handler",
 	"type": "static lib",
+	"language": "C++20",
 	"includeFolders": {
 		"public": "include"
 	},

@@ -31,15 +31,15 @@ bool CommandHandler<TPlayer>::handleCommandText(int32_t playerIdx_, std::string_
 
 ///////////////////////////////
 template <typename TPlayer>
-void CommandHandler<TPlayer>::add(std::vector<std::string_view> const& aliases_, std::shared_ptr<Cmd> cmd_)
+void CommandHandler<TPlayer>::add(std::vector<std::string> aliases_, std::shared_ptr<Cmd> cmd_)
 {
-	for(auto const& alias : aliases_)
-		commands[alias] = cmd_;
+	for(auto& alias : aliases_)
+		commands[alias] = std::move(cmd_);
 }
 	
 ///////////////////////////////
 template <typename TPlayer>
-void CommandHandler<TPlayer>::add(std::string_view invocationText_, std::shared_ptr<Cmd> cmd_)
+void CommandHandler<TPlayer>::add(std::string invocationText_, std::shared_ptr<Cmd> cmd_)
 {
 	commands[invocationText_] = std::move(cmd_);
 }

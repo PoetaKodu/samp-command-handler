@@ -21,29 +21,29 @@ public:
 	////////////////////////////////////
 	template <	template <typename TPlayerCmd> typename TCmd,
 				typename = std::enable_if_t< std::is_base_of_v<Cmd, TCmd<TPlayer> > > >
-	void add(std::vector<std::string_view> const& aliases_, typename TCmd<TPlayer>::Func cmdFunc_)
+	void add(std::vector<std::string> aliases_, typename TCmd<TPlayer>::Func cmdFunc_)
 	{
-		return this->add(aliases_, std::make_shared< TCmd<TPlayer> >( std::move(cmdFunc_) ) );
+		return this->add(std::move(aliases_), std::make_shared< TCmd<TPlayer> >( std::move(cmdFunc_) ) );
 	}
 
 	////////////////////////////////////
 	template <	template <typename TPlayerCmd> typename TCmd,
 				typename = std::enable_if_t< std::is_base_of_v<Cmd, TCmd<TPlayer> > > >
-	void add(std::vector<std::string_view> const& aliases_, TCmd<TPlayer> cmd_)
+	void add(std::vector<std::string> aliases_, TCmd<TPlayer> cmd_)
 	{
-		return this->add(aliases_, std::make_shared<TCmd>( std::move(cmd_) ) );
+		return this->add(std::move(aliases_), std::make_shared<TCmd>( std::move(cmd_) ) );
 	}
 
 	////////////////////////////////////
-	void add(std::vector<std::string_view> const& aliases_, typename FunctionCommandNoArgs<Player>::Func cmdFunc_)
+	void add(std::vector<std::string> aliases_, typename FunctionCommandNoArgs<Player>::Func cmdFunc_)
 	{
-		return this->add<FunctionCommandNoArgs>( aliases_, std::move(cmdFunc_) );
+		return this->add<FunctionCommandNoArgs>( std::move(aliases_), std::move(cmdFunc_) );
 	}
 
 	////////////////////////////////////
-	void add(std::vector<std::string_view> const& aliases_, typename FunctionCommand<Player>::Func cmdFunc_)
+	void add(std::vector<std::string> aliases_, typename FunctionCommand<Player>::Func cmdFunc_)
 	{
-		return this->add<FunctionCommand>( aliases_, std::move(cmdFunc_) );
+		return this->add<FunctionCommand>( std::move(aliases_), std::move(cmdFunc_) );
 	}
 
 	////////////////////////////////////
@@ -51,40 +51,40 @@ public:
 	////////////////////////////////////
 	template <	template <typename TPlayerCmd> typename TCmd,
 				typename = std::enable_if_t< std::is_base_of_v<Cmd, TCmd<TPlayer> > > >
-	void add(std::string_view invocationText_, typename TCmd<TPlayer>::Func cmdFunc_)
+	void add(std::string invocationText_, typename TCmd<TPlayer>::Func cmdFunc_)
 	{
-		return this->add( invocationText_, std::make_shared< TCmd<TPlayer> >( std::move(cmdFunc_) ) );
+		return this->add( std::move(invocationText_), std::make_shared< TCmd<TPlayer> >( std::move(cmdFunc_) ) );
 	}
 
 	////////////////////////////////////
 	template <	template <typename TPlayerCmd> typename TCmd,
 				typename = std::enable_if_t< std::is_base_of_v<Cmd, TCmd<TPlayer> > > >
-	void add(std::string_view invocationText_, TCmd<TPlayer> cmd_)
+	void add(std::string invocationText_, TCmd<TPlayer> cmd_)
 	{
-		return this->add( invocationText_, std::make_shared<TCmd>( std::move(cmd_) ) );
+		return this->add( std::move(invocationText_), std::make_shared<TCmd>( std::move(cmd_) ) );
 	}
 
 	////////////////////////////////////
-	void add(std::string_view invocationText_, typename FunctionCommandNoArgs<Player>::Func cmdFunc_)
+	void add(std::string invocationText_, typename FunctionCommandNoArgs<Player>::Func cmdFunc_)
 	{
-		return this->add<FunctionCommandNoArgs>( invocationText_, std::move(cmdFunc_) );
+		return this->add<FunctionCommandNoArgs>( std::move(invocationText_), std::move(cmdFunc_) );
 	}
 
 	////////////////////////////////////
-	void add(std::string_view invocationText_, typename FunctionCommand<Player>::Func cmdFunc_)
+	void add(std::string invocationText_, typename FunctionCommand<Player>::Func cmdFunc_)
 	{
-		return this->add<FunctionCommand>( invocationText_, std::move(cmdFunc_) );
+		return this->add<FunctionCommand>( std::move(invocationText_), std::move(cmdFunc_) );
 	}
 
 
 	////////////////////////////////////
 	// Base add methods:
 	////////////////////////////////////
-	void add(std::vector<std::string_view> const& aliases_, std::shared_ptr<Cmd> cmd_);
+	void add(std::vector<std::string> aliases_, std::shared_ptr<Cmd> cmd_);
 
-	void add(std::string_view invocationText_, std::shared_ptr<Cmd> cmd_);
+	void add(std::string invocationText_, std::shared_ptr<Cmd> cmd_);
 
-	std::map<std::string_view, std::shared_ptr<Cmd>, IgnoreCaseLess> commands;
+	std::map<std::string, std::shared_ptr<Cmd>, IgnoreCaseLess> commands;
 };
 
 }
