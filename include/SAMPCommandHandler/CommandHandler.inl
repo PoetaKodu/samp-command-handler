@@ -34,7 +34,7 @@ template <typename TPlayer>
 void CommandHandler<TPlayer>::add(std::vector<std::string> aliases_, std::shared_ptr<Cmd> cmd_)
 {
 	for(auto& alias : aliases_)
-		commands[alias] = std::move(cmd_);
+		commands[ std::move(alias) ] = cmd_;
 }
 	
 ///////////////////////////////
